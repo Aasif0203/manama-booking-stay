@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate') %>
+<body>
+  <h3> Updating existing Property Listing </h3><br/>
+  <div class="row">
+  <div class="col-md-9 offset-1">
+    <form method="POST" action="/listings/<%= listing._id %>?method=PUT" >
+      <div class="form-floating mb-3">
+        <input name="listing[title]" value="<%=listing.title%>" type="text" class="form-control" id="title">
+        <label for="title">Enter Property Title</label>
+      </div>
+      <div class="form-floating">
+        <textarea name="listing[description]" style="min-height: 100px;" class="form-control" placeholder="Provide some property Description" id="description">
+          <%=listing.description%>
+        </textarea>
+        <label for="description">Description</label>
+      </div><br/>
+      <div class="form-floating mb-3">
+        <input name="listing[image][url]" type="text" value="<%=listing.image.url%>" class="form-control" id="imagy">
+        <label for="imagy">Enter Image URL</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input name="listing[location]" type="text" value="<%=listing.location%>" class="form-control" id="location">
+        <label for="location">Enter Property Address</label>
+      </div>
+      <div class="row">
+        <div class="form-floating mb-3 col-md-5">
+          <input name="listing[price]" type="number" value="<%=listing.price%>" class="form-control" id="price" >
+          <label for="price">&nbsp; Pricing per night</label>
+        </div>
+        <div class="form-floating mb-3  col-md-7">
+          <input name="listing[country]"  type="text" value="<%=listing.country%>" class="form-control" id="country" readonly>
+          <label for="country">&nbsp; Country</label>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-info">Update</button>
+    </form>
+    </div>
+  </div>
+</body>

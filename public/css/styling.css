@@ -1,0 +1,53 @@
+.logo{
+  /* scale: 0.1; */
+  width: 50px;
+  margin: 0px 5em 0px 5em;
+  transition: transform 0.3s ease;
+}
+.allListings{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  flex: 1;
+}
+
+/* Card Font Styling */
+.card, .card-body {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #222;
+}
+
+/* NavBar */
+.logo:hover {
+  transform: scale(1.15) rotate(-10deg);
+}
+navbar-toggler{
+  height: 100%;
+}
+nav{
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.socials>a {
+  margin-right: 20px;
+}
+.socials>a>i{
+  scale: 1.2;
+}
+footer {
+  padding: 10px;
+  text-align: center;
+}
+.nitt{
+  height: 30px;
+}
