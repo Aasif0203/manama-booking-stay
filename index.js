@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const ExpressError = require('./util/ExpressError');
 
 const listingRoutes = require('./routes/listingRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 main().then(()=>console.log('connected to DB.'))
 .catch((err)=>console.log(err));
@@ -29,7 +30,8 @@ app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
 
-app.use('/',listingRoutes);
+app.use('/listings',listingRoutes);
+app.use('/listings/:id/review', reviewRoutes);
 
 app.get('/',(req, res)=>{
   res.send('this is root');

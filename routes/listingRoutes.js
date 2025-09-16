@@ -3,7 +3,7 @@ const router = express.Router();
 const Listing = require('../models/listing');
 const ExpressError = require('../util/ExpressError');
 
-router.get('/listings',async (req,res)=>{
+router.get('/',async (req,res)=>{
   try{
     const list= await Listing.find({});
     res.render('../views/listing/index.ejs',{listings : list});
@@ -12,7 +12,7 @@ router.get('/listings',async (req,res)=>{
   }
 });
 
-router.get('/listings/new', async (req,res) => {
+router.get('/new', async (req,res) => {
   try{
     res.render('../views/listing/new.ejs');
   }catch(err){
@@ -20,7 +20,7 @@ router.get('/listings/new', async (req,res) => {
   }
 });
 
-router.post('/listings', async (req,res,next)=>{
+router.post('/', async (req,res,next)=>{
   try{
     const newListing = new Listing(req.body.listing);
     if(!newListing){
@@ -34,10 +34,13 @@ router.post('/listings', async (req,res,next)=>{
   
 });
 
-router.get('/listings/:id', async (req,res,next) =>{
+//Review Submission
+
+
+router.get('/:id', async (req,res,next) =>{
   try{
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('reviews');
     if(!listing){
       next(new ExpressError(400,"Listing invalid !!"));
     }
@@ -46,7 +49,7 @@ router.get('/listings/:id', async (req,res,next) =>{
     next(err);
   }
 })
-router.get('/listings/:id/edit', async (req,res,next)=>{
+router.get('/:id/edit', async (req,res,next)=>{
   try{
     let listing = await Listing.findById(req.params.id);
     if(!listing){
@@ -57,7 +60,7 @@ router.get('/listings/:id/edit', async (req,res,next)=>{
     next(err);
   }
 })
-router.put('/listings/:id', async (req,res,next)=>{
+router.put('/:id', async (req,res,next)=>{
   try{
     if(!req.params.id || !req.body.listing){
       next(new ExpressError(400,"Give a proper listing"));
@@ -68,7 +71,7 @@ router.put('/listings/:id', async (req,res,next)=>{
     next(err);
   }
 })
-router.delete('/listings/:id', async (req,res) =>{
+router.delete('/:id', async (req,res) =>{
   try{
     await Listing.findByIdAndDelete(req.params.id);
     res.redirect('/listings');
