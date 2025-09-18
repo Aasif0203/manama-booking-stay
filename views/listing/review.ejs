@@ -2,10 +2,22 @@
 <div>
   <div class="addComment">
     <form method="POST" action="/listings/<%= listing._id %>/review">
-      <div class="mb-3 mt-2" >
-        <label for="rating" class="form-label">Rating</label>
-        <input type="range" min="1" max="5" id="rating" name="review[rating]"/>
-      </div>
+
+      <!-- Imported from Github : https://github.com/LunarLogic/starability -->
+      <fieldset class="starability-fade">
+        <legend>Rating:</legend>
+        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+        <input type="radio" id="second-rate1" name="review[rating]" value="1" />
+        <label for="second-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="second-rate2" name="review[rating]" value="2" />
+        <label for="second-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="second-rate3" name="review[rating]" value="3" />
+        <label for="second-rate3" title="Average">3 stars</label>
+        <input type="radio" id="second-rate4" name="review[rating]" value="4" />
+        <label for="second-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="second-rate5" name="review[rating]" value="5" />
+        <label for="second-rate5" title="Amazing">5 stars</label>
+      </fieldset><br/>
       <div class="input-group">
         <div class="form-floating">
           <textarea class="form-control" name="review[comment]" placeholder="Leave a comment here" id="comment" style="height: 100px"></textarea>
@@ -17,13 +29,14 @@
   </div>
   
   <% if(listing.reviews && listing.reviews.length > 0){ %>
-  <h3 style="color: red; font-family: 'Segoe UI', Arial, sans-serif; font-weight: bold; text-decoration: underline;">Reviews :</h3>
+    <hr/>
+  <h4 style="color: red; font-family: 'Segoe UI', Arial, sans-serif;  ">All Reviews :</h4>
     <div class="row row-cols-2 row-cols-md-2">
     <% for( let review of listing.reviews ) { %>
       <div class="col">
         <div class="card mb-3 ms-3">
           <div class="card-header" style="height: 50px;">
-            By Ramesh
+            <b>By @Ramesh</b>
             <span style="float: right;" class="rating">
               <% for(i=0 ; i<review.rating ; i++){ %>
                 <span style="color: gold; font-size: 30px;">&#9733;</span>
@@ -38,12 +51,13 @@
               
             </figure>
             <form method="POST" action="/listings/<%= listing._id %>/review/<%= review._id %>?method=DELETE">
-              <button class="btn btn-outline-danger" type="submit">Delete</button>
+              <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
             </form>
           </div>
         </div>
       </div>
       <% } %>
     </div>
+    <hr/>
   <% } %>
 </div>

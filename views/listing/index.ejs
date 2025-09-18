@@ -5,7 +5,7 @@
     <% for(let i = 0; i < listings.length; i++) { %>
       <div class="col">
         <a href="listings/<%= listings[i]._id %>" style="text-decoration: none;" >
-        <div class="card shadow-lg bg-body-tertiary rounded" style="height: auto;">
+        <div class="listing-box card shadow-lg bg-body-tertiary rounded" style="height: auto;">
           <img src="<%= listings[i].image.url %>" class="card-img-top " alt="Property image" style="height: 18rem;">
           <div class="card-body" >
             <h6><%= listings[i].title %>  </h6> 

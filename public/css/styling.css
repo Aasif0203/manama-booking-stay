@@ -25,6 +25,12 @@ body {
   font-weight: 400;
   color: #222;
 }
+.listing-box {
+  transition: scale 0.5s ease-out;
+}
+.listing-box:hover {
+  scale: 1.08;
+}
 
 /* NavBar */
 .logo:hover {

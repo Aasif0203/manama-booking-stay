@@ -30,6 +30,9 @@ const ListingSchema = new Schema({
     type:String,
     required:true
   },
+  contactInfo:{
+    type:String,
+  },
   sharingRoom: {
     type: Boolean,
     default: false

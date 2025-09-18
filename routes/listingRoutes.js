@@ -24,9 +24,10 @@ router.post('/', async (req,res,next)=>{
   try{
     const newListing = new Listing(req.body.listing);
     if(!newListing){
-      next(new ExpressError(400,"Listing invalid !!"));
+      next(new ExpressError(400,"Listing doesn't exist !!"));
     }
     await newListing.save();
+    req.flash('success', "New Listing created successfully !");
     res.redirect('/listings');
   }catch(err){
     next(err);
@@ -42,7 +43,7 @@ router.get('/:id', async (req,res,next) =>{
     let {id} = req.params;
     const listing = await Listing.findById(id).populate('reviews');
     if(!listing){
-      next(new ExpressError(400,"Listing invalid !!"));
+      return next(new ExpressError(400,"Listing invalid !!"));
     }
     res.render("../views/listing/show.ejs" , {listing});
   }catch(err){
@@ -74,6 +75,7 @@ router.put('/:id', async (req,res,next)=>{
 router.delete('/:id', async (req,res) =>{
   try{
     await Listing.findByIdAndDelete(req.params.id);
+    req.flash('success','Listing deleted successfully!');
     res.redirect('/listings');
   }catch(err){
     next(err);
