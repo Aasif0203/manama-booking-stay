@@ -8,11 +8,16 @@ const PORT = process.env.PORT;
 const engine = require('ejs-mate'); //EJS MATE
 const methodOverride = require('method-override');
 const ExpressError = require('./util/ExpressError');
+
 const sessions = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const localPassport = require('passport-local');
+const User = require('./models/users');
 
 const listingRoutes = require('./routes/listingRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const {userRoutes} = require('./routes/userRoutes');
 
 main().then(()=>console.log('connected to DB.'))
 .catch((err)=>console.log(err));
@@ -31,12 +36,23 @@ app.use(sessions({
   }
 }));
 app.use(flash());
+
+//Mention passport after session! Why?
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localPassport(User.authenticate()));
+
+// User middleware - MUST be after passport middleware to access req.user
 app.use((req,res,next)=>{
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.failure =req.flash('failure');
-  // console.log(res.locals.success);
+  
   next();
-})
+});
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'/views'));
@@ -51,6 +67,7 @@ app.set('view engine', 'ejs');
 
 app.use('/listings',listingRoutes);
 app.use('/listings/:id/review', reviewRoutes);
+app.use('/', userRoutes);
 
 app.get('/',(req, res)=>{
   res.send('this is root');
@@ -62,7 +79,11 @@ app.use((req, res, next) => {
 
 app.use((err,req,res,next)=>{
   let {status=500,message="Some error has Occured on our server side!!"} = err;
-  req.flash("failure", "Error "+status+" Status : "+ message);
+  req.flash('failure', `Error ${status}: ${message}`);
+  // Minimal loop guard: if already on /listings just send a plain text fallback (rare)
+  if (req.originalUrl === '/listings') {
+    return res.status(status).send(`Error ${status}: ${message}`);
+  }
   res.redirect('/listings');
 });
 

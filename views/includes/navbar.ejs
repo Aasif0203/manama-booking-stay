@@ -16,5 +16,19 @@
       </ul>
     </div>
     
+    <div class="dropdown" style="margin-left: auto; margin-right: 100px;">
+      <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; font-size: 1.5em;">
+        <i class="fa-solid fa-circle-user"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <% if(!currentUser){ %>
+          <li><a class="dropdown-item" href="/signup">Sign-up</a></li>
+          <li><a class="dropdown-item" href="/login">Log in</a></li>
+        <% } else { %>
+          <li><a class="dropdown-item" href="/logout">Log-out</a></li>
+          <li><a class="dropdown-item" href="#">Delete account</a></li>
+        <% } %>
+      </ul>
+    </div>
   </div>
 </nav>

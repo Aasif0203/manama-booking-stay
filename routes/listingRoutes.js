@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Listing = require('../models/listing');
 const ExpressError = require('../util/ExpressError');
+const {isLoggedin} = require('./userRoutes');
 
-router.get('/',async (req,res)=>{
+router.get('/',async (req,res,next)=>{
   try{
     const list= await Listing.find({});
     res.render('../views/listing/index.ejs',{listings : list});
@@ -12,7 +13,7 @@ router.get('/',async (req,res)=>{
   }
 });
 
-router.get('/new', async (req,res) => {
+router.get('/new',isLoggedin, async (req,res,next) => {
   try{
     res.render('../views/listing/new.ejs');
   }catch(err){
@@ -20,7 +21,7 @@ router.get('/new', async (req,res) => {
   }
 });
 
-router.post('/', async (req,res,next)=>{
+router.post('/',isLoggedin, async (req,res,next)=>{
   try{
     const newListing = new Listing(req.body.listing);
     if(!newListing){
@@ -50,7 +51,7 @@ router.get('/:id', async (req,res,next) =>{
     next(err);
   }
 })
-router.get('/:id/edit', async (req,res,next)=>{
+router.get('/:id/edit', isLoggedin, async (req,res,next)=>{
   try{
     let listing = await Listing.findById(req.params.id);
     if(!listing){
@@ -61,7 +62,7 @@ router.get('/:id/edit', async (req,res,next)=>{
     next(err);
   }
 })
-router.put('/:id', async (req,res,next)=>{
+router.put('/:id',isLoggedin, async (req,res,next)=>{
   try{
     if(!req.params.id || !req.body.listing){
       next(new ExpressError(400,"Give a proper listing"));
@@ -72,7 +73,7 @@ router.put('/:id', async (req,res,next)=>{
     next(err);
   }
 })
-router.delete('/:id', async (req,res) =>{
+router.delete('/:id', isLoggedin, async (req,res) =>{
   try{
     await Listing.findByIdAndDelete(req.params.id);
     req.flash('success','Listing deleted successfully!');
