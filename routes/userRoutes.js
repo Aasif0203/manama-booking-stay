@@ -13,11 +13,11 @@ router.post('/signup', async (req,res,next)=>{
     let newUser = new User({username:username , email:email});
     const registeredUser = await User.register(newUser,password);
     // Automatically login as well
-    req.login(registeredUser,(err)=>{
-      if(err) return next(err);
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+      req.flash('success', `Signed-up succussfully! Welcome, ${username} !! `);
+      res.redirect('/listings');
     });
-    req.flash('success', `Signed-up succussfully! Welcome , ${username} !! `);
-    res.redirect('/listings');
   }catch(e){
     res.status(400);
     res.locals.failure = [e.message || 'Signup failed. Please try again.'];

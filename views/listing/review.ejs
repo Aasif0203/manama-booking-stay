@@ -1,5 +1,6 @@
 
 <div>
+  <% if(currentUser!=undefined && currentUser.username != listing.owner.username){ %>
   <div class="addComment">
     <form method="POST" action="/listings/<%= listing._id %>/review">
 
@@ -27,6 +28,7 @@
       <button type="submit" class="btn btn-dark">Add</button>
     </form>
   </div>
+  <% } %>
   
   <% if(listing.reviews && listing.reviews.length > 0){ %>
     <hr/>
@@ -36,7 +38,7 @@
       <div class="col">
         <div class="card mb-3 ms-3">
           <div class="card-header" style="height: 50px;">
-            <b>By @Ramesh</b>
+            <b>By @<%= review.author.username %> </b>
             <span style="float: right;" class="rating">
               <% for(i=0 ; i<review.rating ; i++){ %>
                 <span style="color: gold; font-size: 30px;">&#9733;</span>
@@ -50,9 +52,11 @@
               </blockquote>
               
             </figure>
+            <% if(currentUser!=undefined && currentUser.username === review.author.username){ %>
             <form method="POST" action="/listings/<%= listing._id %>/review/<%= review._id %>?method=DELETE">
               <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
             </form>
+            <% } %>
           </div>
         </div>
       </div>
