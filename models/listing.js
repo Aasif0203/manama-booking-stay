@@ -30,6 +30,10 @@ const ListingSchema = new Schema({
     type:String,
     required:true
   },
+  wifi:{
+    type : Boolean,
+    default:false
+  },
   contactInfo:{
     type:String,
   },
@@ -38,6 +42,11 @@ const ListingSchema = new Schema({
     default: false
   },
   sharingFeatures: {
+    no_of_members:{
+      type:Number,
+      min:1,
+      max:7
+    },
     sleep_schedule: {
       type: String,
       enum: ["early", "normal", "night_owl", "flexible"]

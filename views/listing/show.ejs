@@ -11,7 +11,51 @@
           <li class="list-group-item"><strong>Country:</strong> <%= listing.country %></li>
           <li class="list-group-item"><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString('en-in') %> / night</li>
           <li class="list-group-item"><strong>Posted by:</strong> @<%= listing.owner.username %></li>
+          <% if (listing.wifi) { %>
+           <li class="list-group-item">
+            <i class="fa-solid fa-wifi"></i> Free Wifi available
+           </li>
+          <% } %>
+          
+          
         </ul>
+        <% if (listing.sharingRoom) { %>
+          <div class="card sharing-Options border-primary mb-3" style="background: linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <div class="card-header bg-primary text-white d-flex align-items-center">
+              <i class="fa-solid fa-people-roof fa-lg me-2"></i>
+              <span class="fw-bold">Sharable Room</span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="mb-2"><i class="fa-solid fa-user-group"></i> <strong>Capacity:</strong> <%= listing.sharingFeatures?.no_of_members || 'N/A' %> members</p>
+                  <p class="mb-2"><i class="fa-solid fa-moon"></i> <strong>Sleep schedule:</strong> 
+                    <% if (listing.sharingFeatures?.sleep_schedule === "early") { %>Early bird
+                    <% } else if (listing.sharingFeatures?.sleep_schedule === "normal") { %>Regular hours
+                    <% } else if (listing.sharingFeatures?.sleep_schedule === "night_owl") { %>Night owl
+                    <% } else { %>Flexible<% } %>
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <p class="mb-2"><i class="fa-solid fa-venus-mars"></i> <strong>Gender preference:</strong> 
+                    <%= listing.sharingFeatures?.gender_preference?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'N/A' %>
+                  </p>
+                  <% if (listing.sharingFeatures?.languages && listing.sharingFeatures.languages.length > 0) { %>
+                    <p class="mb-2"><i class="fa-solid fa-language"></i> <strong>Languages:</strong> <%= listing.sharingFeatures.languages.join(', ') %></p>
+                  <% } %>
+                </div>
+              </div>
+              <% if (listing.sharingFeatures?.others) { %>
+                <p class="mt-2"><i class="fa-solid fa-circle-info"></i> <strong>Additional notes:</strong> <%= listing.sharingFeatures.others %></p>
+              <% } %>
+              <div class="mt-3 text-center">
+                <span class="badge bg-primary">Co-living Friendly</span>
+                <span class="badge bg-info text-dark ms-2">Verified Host</span>
+              </div>
+            </div>
+          </div>
+        <% } %>
+
         <% if(currentUser!=undefined && currentUser.username === listing.owner.username){ %>
         <div class="d-flex gap-2">
           <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">Edit</a>

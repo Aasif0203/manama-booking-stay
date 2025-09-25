@@ -24,7 +24,7 @@ router.delete('/:reviewId', async (req,res,next) =>{
   try{
     let {id,reviewId} = req.params;
     let currReview = await Review.findById(reviewId);
-    if(currReview.author != req.user._id){
+    if(!currReview || !currReview.author || !currReview.author._id.equals(req.user._id)){
       req.flash('failure', 'You cannot delete this review!');
       return res.redirect(`/listings/${id}`);
     }

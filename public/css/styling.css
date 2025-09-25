@@ -42,6 +42,24 @@ navbar-toggler{
 nav{
   margin-bottom: 20px;
 }
+/* Search Box */
+.searchbox-div{
+  margin-right: 25% ;
+}
+#search-box{
+  border-radius: 25px;
+  padding: 0.5rem 3rem 0.5rem 3rem;
+}
+#search-btn:hover{
+  background-color: transparent;
+  color:red;
+}
+#search-btn{
+  border-radius: 20px;
+  font-size: large;
+  font-family:Georgia, 'Times New Roman', Times, serif
+  padding: 0rem 1.5rem 0rem 1.5rem;
+}
 
 /* Footer */
 .socials>a {
