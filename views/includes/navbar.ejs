@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="nav-link" href="/listings"><img src="/logo.png" alt="Logo" class="logo"/></a>
+    <a class="navbar-brand" href="/listings"><img src="/logo.png" alt="Logo" class="logo img-fluid"/></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,24 +11,36 @@
           <a class="nav-link" href="/listings">Explore</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/listings/new">Host New Listing </a>
+          <a class="nav-link active" aria-current="page" href="/listings/my-properties">My Accomodations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/listings/new">Add Property</a>
         </li>
       </ul>
-    </div>
-    <div class="searchbox-div">
-      <form class="d-flex" action="/listings/search" method="POST">
-        <input class="form-control me-2" name="searchTerm" placeholder="Search by destination" id="search-box" aria-label="Search"/>
-        <button class="btn btn-danger" id="search-btn" type="submit">
-          <i class="fa-solid fa-magnifying-glass-location" style="display: inline;"></i>&nbsp;Search
+      
+      <div class="searchbox-div d-none d-lg-block">
+        <form class="d-flex" action="/listings/filter" method="GET">
+          <input class="form-control me-2" name="searchTerm" placeholder="Search by destination" id="search-box" aria-label="Search"/>
+          <button class="btn btn-danger" id="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass-location" style="display: inline;"></i>&nbsp;Search
+          </button>
+        </form>
+      </div>
+      
+      <!-- Mobile search form -->
+      <form class="d-flex d-lg-none mt-3 mb-2" action="/listings/filter" method="GET">
+        <input class="form-control me-2" name="searchTerm" placeholder="Search by destination" aria-label="Search"/>
+        <button class="btn btn-danger" type="submit">
+          <i class="fa-solid fa-magnifying-glass-location"></i>
         </button>
       </form>
     </div>
 
-    <div class="dropdown" style="margin-left: auto; margin-right: 100px;">
+    <div class="dropdown" style="margin-left: auto; margin-right: 10px;">
       <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; font-size: 1.5em;">
         <i class="fa-solid fa-circle-user"></i>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-end">
         <% if(!currentUser){ %>
           <li><a class="dropdown-item" href="/signup">Sign-up</a></li>
           <li><a class="dropdown-item" href="/login">Log in</a></li>

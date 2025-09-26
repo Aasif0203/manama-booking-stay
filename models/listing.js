@@ -34,6 +34,10 @@ const ListingSchema = new Schema({
     type : Boolean,
     default:false
   },
+  pool:{
+    type : Boolean,
+    default:false
+  },
   contactInfo:{
     type:String,
   },

@@ -17,6 +17,7 @@ const User = require('./models/users');
 
 const listingRoutes = require('./routes/listingRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const filterRoutes = require('./routes/filterRoutes');
 const {userRoutes} = require('./routes/userRoutes');
 
 main().then(()=>console.log('connected to DB.'))
@@ -65,7 +66,8 @@ app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
 
-app.use('/listings',listingRoutes);
+app.use('/listings', filterRoutes);
+app.use('/listings', listingRoutes);
 app.use('/listings/:id/review', reviewRoutes);
 app.use('/', userRoutes);
 

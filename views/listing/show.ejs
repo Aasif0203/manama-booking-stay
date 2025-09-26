@@ -16,7 +16,11 @@
             <i class="fa-solid fa-wifi"></i> Free Wifi available
            </li>
           <% } %>
-          
+          <% if (listing.pool) { %>
+           <li class="list-group-item">
+            <i class="fa-solid fa-person-swimming"></i> Swimming Pool Available 
+           </li>
+          <% } %>
           
         </ul>
         <% if (listing.sharingRoom) { %>

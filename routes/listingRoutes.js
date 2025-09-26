@@ -5,33 +5,13 @@ const ExpressError = require('../util/ExpressError');
 const {isLoggedin} = require('./userRoutes');
 
 
-router.post('/search', async (req, res) => {
-  try {
-    const {searchTerm} = req.body;
-    if (!searchTerm) {
-      return res.redirect('/listings');
-    }
-    
-    // Create a search query that matches title OR location
-    // Using case-insensitive regex for better matching
-    const listings = await Listing.find({
-      $or: [
-        { title: { $regex: searchTerm, $options: 'i' } },
-        { location: { $regex: searchTerm, $options: 'i' } },
-        { country: { $regex: searchTerm, $options: 'i' } }
-      ]
-    }).populate('owner');
-    if(!listings || listings.length===0){
-      req.flash('failure', 'No such listing found!');
-      return res.redirect('/listings');
-    }
-    
-    req.flash('success',`Search results for "${searchTerm}"`);
-    res.render('../views/listing/index.ejs',{listings});
-    
-  } catch (error) {
-    req.flash('failure', 'Error performing search');
-    res.redirect('/listings');
+router.get('/my-properties',isLoggedin,async (req,res,next)=>{
+  try{
+    // const id = req.user._id;
+    const listings = await Listing.find({owner:req.user});
+    res.render('../views/listing/index.ejs',{listings, Title: "My Properties" ,myproperty:true});
+  }catch(err){
+    next(err);
   }
 });
 
@@ -39,8 +19,8 @@ router
 .route('/')
 .get(async (req,res,next)=>{
   try{
-    const list = await Listing.find({});
-    res.render('../views/listing/index.ejs',{listings : list});
+    const list = await Listing.find({}).populate('owner');
+    res.render('../views/listing/index.ejs',{listings : list,Title:"All Property Listings", myproperty:false});
   }catch(err){
     next(err);
   }
@@ -49,7 +29,6 @@ router
   try{
     if(!req.body.listing){
       return next(new ExpressError(400,"Listing data is missing!"));
-      next(new ExpressError(400,"Invalid or missing listing data!"));
     }
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;

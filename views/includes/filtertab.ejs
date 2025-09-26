@@ -1,0 +1,60 @@
+
+<div class="filter-container">
+  <form method="GET" action="/listings/filter" class="filter-form">
+    <!-- Hidden field for search term (will be populated by JS if search is active) -->
+    <input type="hidden" id="searchTerm" name="searchTerm" value="">
+    
+    <!-- Sharing Section -->
+    <div class="filter-group">
+      <div class="filter-title">Room Type</div>
+      <div class="filter-toggle">
+        <input type="checkbox" id="sharing-toggle" name="sharing" class="toggle-input">
+        <label for="sharing-toggle" class="toggle-label">
+          <i class="fa-solid fa-people-roof"></i> Sharing
+        </label>
+      </div>
+      
+      <!-- (only visible when sharing is toggled) -->
+      <div class="gender-options" id="gender-options">
+        <div class="filter-option">
+          <input type="radio" name="gender" id="no-preference" value="no_preference" checked>
+          <label for="no-preference">No Preference</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="gender" id="male-only" value="male">
+          <label for="male-only"><i class="fa-solid fa-person"></i> Male Only</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="gender" id="female-only" value="female">
+          <label for="female-only"><i class="fa-solid fa-person-dress"></i> Female Only</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price Range Section -->
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <div class="price-slider">
+        <span class="price-value">₹<span id="price-min">0</span> - ₹<span id="price-max">10000</span></span>
+        <input type="range" id="price-range" name="maxPrice" min="0" max="10000" step="100" value="10000">
+      </div>
+    </div>
+
+    <!-- Amenities Section -->
+    <div class="filter-group">
+      <div class="filter-title">Amenities</div>
+      <div class="filter-option">
+        <input type="checkbox" id="wifi-toggle" name="wifi">
+        <label for="wifi-toggle"><i class="fa-solid fa-wifi"></i> WiFi</label>
+      </div>
+      <div class="filter-option">
+        <input type="checkbox" id="pool-toggle" name="pool">
+        <label for="pool-toggle"><i class="fa-solid fa-water-ladder"></i> Pool</label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <button type="submit" class="btn btn-primary filter-btn">Apply Filters</button>
+    </div>
+  </form>
+</div>
