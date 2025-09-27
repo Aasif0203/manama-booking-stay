@@ -3,6 +3,7 @@ const router = express.Router();
 const Listing = require('../models/listing');
 const ExpressError = require('../util/ExpressError');
 const {isLoggedin} = require('./userRoutes');
+const geocodeAddress = require('../controllers/geocoding');
 
 
 router.get('/my-properties',isLoggedin,async (req,res,next)=>{
@@ -32,6 +33,14 @@ router
     }
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+
+    const coordinates = await geocodeAddress(newListing.location);
+    if (coordinates!=null) {
+      newListing.coordinates = coordinates;
+    }else{
+      req.flash('failure', "Geocoding failed. Invalid location provided.");
+    }
+
     await newListing.save();
     req.flash('success', "New Listing created successfully !");
     res.redirect('/listings');
@@ -88,12 +97,21 @@ router
     if(!req.params.id || !req.body.listing){
       return next(new ExpressError(400,"Give a proper listing"));
     }
+    let updatedListing = req.body.listing;
     let currListing = await Listing.findById(req.params.id);
     if(!req.user._id.equals(currListing.owner._id)){
       req.flash('failure', 'You dont have the permission to Edit!');
       return res.redirect('/listings');
     }
-    await Listing.findByIdAndUpdate(req.params.id, req.body.listing);
+
+    const coordinates = await geocodeAddress(updatedListing.location);
+    if (coordinates) {
+      updatedListing.coordinates = coordinates;
+    }else{
+      req.flash('failure', "Geocoding failed. Invalid location provided.");
+    }
+
+    await Listing.findByIdAndUpdate(req.params.id, updatedListing);
     res.redirect(`/listings/${req.params.id}`);
   } catch(err){
     next(err);

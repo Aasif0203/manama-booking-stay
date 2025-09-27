@@ -14,6 +14,66 @@
         </textarea>
         <label for="description">Description</label>
       </div><br/>
+      <div class="row">
+        <div class="form-check form-switch mb-3 col-md-5">
+          <input class="form-check-input" type="checkbox" value="true" id="wifi" name="listing[wifi]" <%= listing.wifi ? "checked" : "" %> switch>
+          <label class="form-check-label" for="wifi">
+            Do you provide free Wifi service?
+          </label>
+        </div>
+        <div class="form-check form-switch mb-3  col-md-7">
+          <input class="form-check-input" type="checkbox" value="true" id="lift" name="listing[lift]" <%= listing.lift ? "checked" : "" %> switch>
+          <label class="form-check-label" for="lift">
+            Do you provide Elevator service?
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-check form-switch mb-3 col-md-5">
+          <input class="form-check-input" type="checkbox" value="true" id="pool" name="listing[pool]" <%= listing.pool ? "checked" : "" %> switch>
+          <label class="form-check-label" for="pool">
+            Do you provide Swimming Pool?
+          </label>
+        </div>
+        <div class="form-check form-switch mb-3  col-md-7">
+          <input class="form-check-input" type="checkbox" value="true" id="sharingRoom" name="listing[sharingRoom]" <%= listing.sharingRoom ? "checked" : "" %> switch>
+          <label class="form-check-label" for="sharingRoom">
+            Do you wish to ShareRoom
+          </label>
+        </div>
+      </div>
+      
+      
+      <div id="sharingOptions" style="display:none; border:1px solid #eee; padding:1em; border-radius:8px; margin-bottom:1em;">
+        <div class="form-floating mb-3">
+          <input name="listing[sharingFeatures][no_of_members]" type="number" min="1" max="7" class="form-control" id="no_of_members">
+          <label for="no_of_members">Number of Members</label>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Gender Preference</label><br/>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="listing[sharingFeatures][gender_preference]" id="genderAny" value="no_preference" checked>
+            <label class="form-check-label" for="genderAny">No Preference</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="listing[sharingFeatures][gender_preference]" id="genderMale" value="male">
+            <label class="form-check-label" for="genderMale">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="listing[sharingFeatures][gender_preference]" id="genderFemale" value="female">
+            <label class="form-check-label" for="genderFemale">Female</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="listing[sharingFeatures][gender_preference]" id="genderNonbinary" value="nonbinary">
+            <label class="form-check-label" for="genderNonbinary">Nonbinary</label>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input name="listing[sharingFeatures][languages]" type="text" class="form-control" id="languages" placeholder="e.g. English, Hindi">
+          <label for="languages">Languages (comma separated)</label>
+        </div>
+      </div>
+
       <div class="form-floating mb-3">
         <input name="listing[image][url]" type="text" value="<%=listing.image.url%>" class="form-control" id="imagy">
         <label for="imagy">Enter Image URL</label>
@@ -37,4 +97,12 @@
     </form>
     </div>
   </div>
+
+  <script>
+    // Toggle sharing options based on sharingRoom checkbox
+    document.getElementById('sharingRoom').addEventListener('change', function() {
+      const sharingOptions = document.getElementById('sharingOptions');
+      sharingOptions.style.display = this.checked ? 'block' : 'none';
+    });
+  </script>
 </body>

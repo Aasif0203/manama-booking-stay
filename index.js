@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const ExpressError = require('./util/ExpressError');
 
 const sessions = require('express-session');
+const MongodbSession = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const localPassport = require('passport-local');
@@ -28,7 +29,14 @@ async function main() {
 }
 
 app.use(sessions({
-  secret:'mysecretcodestring',
+  store: MongodbSession.create({
+    mongoUrl: uri,
+    crypto:{
+      secret:"mysomethingsecretcode"
+    },
+    touchAfter:24*3600,
+  }),
+  secret:'mysomethingsecretcode',
   resave: true, saveUninitialized : true,
   cookie:{
     expires:Date.now() + 7*24*60*60*1000,

@@ -34,6 +34,10 @@ const ListingSchema = new Schema({
     type : Boolean,
     default:false
   },
+  lift:{
+    type:Boolean,
+    default:false,
+  },
   pool:{
     type : Boolean,
     default:false
@@ -68,6 +72,14 @@ const ListingSchema = new Schema({
   country:{
     type:String,
     required:true
+  },
+  coordinates:{
+    lat: {
+      type:Number,
+    },
+    lng: {
+      type:Number,
+    }
   },
   reviews:[
     {

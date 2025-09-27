@@ -21,6 +21,11 @@
             <i class="fa-solid fa-person-swimming"></i> Swimming Pool Available 
            </li>
           <% } %>
+          <% if (listing.lift) { %>
+           <li class="list-group-item">
+            <i class="fa-solid fa-elevator"></i> Elevator installed 
+           </li>
+          <% } %>
           
         </ul>
         <% if (listing.sharingRoom) { %>
@@ -78,4 +83,9 @@
     </div>
   </div>
   
+  <% if (listing.coordinates && listing.coordinates.lat) { %>
+   <div id="propertyMap" style="height: 300px; width: 60%;" class="mb-1"></div>
+  <% } %>
+
 </div>
+<%- include('../includes/mapscript') %>
