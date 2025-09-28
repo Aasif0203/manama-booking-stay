@@ -80,7 +80,7 @@ app.use('/listings/:id/review', reviewRoutes);
 app.use('/', userRoutes);
 
 app.get('/',(req, res)=>{
-  res.send('this is root');
+  res.redirect('/listings');
 });
 
 app.use((req, res, next) => {
